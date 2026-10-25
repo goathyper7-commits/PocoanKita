@@ -1,0 +1,13 @@
+{
+  "name": "pocoan-payroll",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Sistem Manajemen Pocoan (Gaji Jahitan) & Penggajian Konveksi",
+  "scripts": {
+    "start": "node --disable-warning=ExperimentalWarning server.js",
+    "test": "node --disable-warning=ExperimentalWarning --test \"tests/*.test.js\""
+  },
+  "engines": {
+    "node": ">=22.13"
+  }
+}
