@@ -31,5 +31,25 @@ if (require.main === module) {
   jalankan();
 }
 
-module.exports = { jalankan };
-module.exports = app;
+// ---- Untuk Vercel (serverless) ----
+const fs = require('fs');
+
+let serverVercel = null;
+function ambilServerVercel() {
+  if (!serverVercel) {
+    // Folder repo read-only di Vercel, jadi salin DB ke /tmp (satu-satunya yang bisa ditulis)
+    const tujuan = '/tmp/pocoan.db';
+    if (!fs.existsSync(tujuan) && fs.existsSync(BERKAS_DB)) {
+      fs.copyFileSync(BERKAS_DB, tujuan);
+    }
+    serverVercel = buatServer(bukaDatabase(tujuan));
+  }
+  return serverVercel;
+}
+
+function handler(req, res) {
+  ambilServerVercel().emit('request', req, res);
+}
+
+handler.jalankan = jalankan; // supaya tests yang memanggil jalankan tetap jalan
+module.exports = handler;
